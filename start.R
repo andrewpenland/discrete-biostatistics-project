@@ -1,4 +1,12 @@
 #This is the world's best R file.
 #It contains no mistakes. 
 
-print("hello hoops! :)")
+
+hello_justin <- function() {
+  print("Hello Justin")
+}
+
+hello_hoops <- function{
+   print("hello hoops! :)")
+ }
+
