@@ -31,10 +31,7 @@ armitage_doll <- function(n, lambda, trials) {
 
 censor <- function(data, bins) {
   # Inputs: data and bins are both numeric vectors
-  midpoints <- numeric(length(bins) - 1)
-  for (i in 2:length(bins)) {
-    midpoints[i-1] <- (bins[i] + bins[i-1])/2
-  }
+  midpoints = (bins[2:length(bins)] + bins[1:(length(bins)-1)]) / 2
   
   # Group data into bins
   binned_data <- cut(data, breaks = bins, labels = midpoints)
