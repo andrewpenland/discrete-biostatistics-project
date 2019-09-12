@@ -14,7 +14,7 @@ if (require('dplyr')==FALSE) {
   require(dplyr)
 }
 
-hitting_time <- function(n, lambda) {
+simulate_individual_hitting_time <- function(n, lambda) {
   # Inputs: n is an integer, lambda is numeric.
   simulated_times <- rexp(n = n, rate = lambda)
   maximum_simulated_time <- max(simulated_times)
@@ -22,7 +22,7 @@ hitting_time <- function(n, lambda) {
   # Output is numeric
 }
 
-armitage_doll <- function(n, lambda, trials) {
+simulate_population_hitting_time <- function(n, lambda, trials) {
   # Inputs: n is an integer, lambda is numeric, trials is an integer.
   res <- replicate(trials, hitting_time(n, lambda))
   return(res)
@@ -31,7 +31,7 @@ armitage_doll <- function(n, lambda, trials) {
 
 censor <- function(data, bins) {
   # Inputs: data and bins are both numeric vectors
-  midpoints = (bins[2:length(bins)] + bins[1:(length(bins)-1)]) / 2
+  midpoints <- (bins[2:length(bins)] + bins[1:(length(bins)-1)]) / 2
   
   # Group data into bins
   binned_data <- cut(data, breaks = bins, labels = midpoints)
