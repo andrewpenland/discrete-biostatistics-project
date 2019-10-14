@@ -1,34 +1,50 @@
-g2 = list(c(1, 3, 4), c(2, 4, 5), c(3, 1, 5), c(4, 1, 2), c(5, 2, 3))
+##
+# A Series of functions pertaining to graphs.
+#
+# @author Justin Clifton
+# @author Tommy Meek
+# @version October, 2019
+##
 
 ##
-# depth first search of a graph
+# A Depth First Search of a graph. This function traverses a graph, starting 
+# at a given vertex and proceding down each branch until a vertex is reached 
+# with no new neghbors. It then recedes back up the branch and repeats the 
+# process with each branch. When completed it returns a list of all the 
+# verticies reachable from that vertex in the order in which they were 
+# visited.
 #
 # @param vertex: the vertex from which to start
 # @param graph: a vertex edge list
-# @returns a path containing all verticies connected to the starting vertex
+# @returns all verticies connected to the starting vertex in the order visited
 ##
 DFS <- function (vertex, graph) {
   visited <- c()
-  to_visit <- c()
-  # mimics a do while loop. #
-  repeat {
-    append(visited, vertex)
-    tmp <- find_neighbors(vertex, graph)
-    tmp <- tmp[!contains(to_visit, tmp)] # ensures no duplicates from to_visit
-    tmp <- tmp[!contains(visited, tmp)] # ensures no duplicates from visited
-    to_visit <- append(tmp, to_visit) # pushes neighbors onto stack
-    vertex <- to_visit[1]
-    # TODO: remove first element from to_visit
-    if (length(to_visit) == 0) {
-      break
+  v_stack <- c(vertex) # LIFO vector containing verticies we are examining
+  while (length(v_stack > 0)) {
+    vertex <- v_stack[1] # examine the head of the stack for this itteration
+    if (!vertex %in% visited) {
+      visited <- append(visited, vertex) # add vertex to visited if not yet
+    }
+    tmp <- find_neighbors(vertex, graph) # tmp is the neighbors of vertex
+    tmp <- tmp[!tmp %in% v_stack] # ensures no duplicates from to_visit
+    tmp <- tmp[!tmp %in% visited] # ensures no duplicates from visited
+    if (is.na(tmp[1])) {
+      v_stack <- v_stack[-1] # pop first element off stack
+    } else {
+      v_stack <- append(tmp[1], v_stack) # pushes first neighbor onto stack
     }
   }
   return (visited)
-}
+} # end DFS()
 
-contains <- function (collection, item) {
-  return(length(collection[collection == item]) > 0)
-}
+##
+# does not work as intended.
+# functionality supplanted by the %in% operator.
+#
+# contains <- function (collection, item) {
+#   return(length(collection[collection == item]) > 0)
+# }
 
 ##
 # finds all verticies ajacent to the given vertex and returns them in a list
@@ -38,14 +54,13 @@ contains <- function (collection, item) {
 # @returns all the neighbors of the vertex
 ##
 find_neighbors <- function (vertex, graph) {
+  stopifnot(!is.na(vertex)) # ensures vertex is not NA
   i <- 1
   while (i <= length(graph)) {
     if (graph[[i]][1] == vertex) {
-      neighbors <- graph[i]
+      neighbors <- graph[[i]]
     }
     i <- i + 1
   }
-  #  mask <- c(0, 1, 1)
-  #  neighbors <- neighbors[as.logical(mask)]
-  return (neighbors)
-}
+  return (neighbors[-1]) # [-1] gets rid of the first element
+} # end find_neighbors()
