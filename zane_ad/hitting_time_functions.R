@@ -22,6 +22,7 @@ if (require('dplyr')==FALSE) {
 #  Write a wrapper function that takes as input a simulation function and 
 #   its parameters, and n, replicates it n times, does the log-log model and
 #   returns the coefficients.
+# Write at least six unit tests for these functions.
 
 simulate_individual_hitting_time <- function(n, lambda) {
   # Inputs: n is an integer, lambda is numeric scalar.
