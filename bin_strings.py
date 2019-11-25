@@ -1,6 +1,6 @@
 def gen_strings(n, r, j, bin_string = '', good_strings = None):
    """Generates the binary strings.
-   
+
    This function will generate binary strings which model loose hypergraphs with boolean valued 
    vertices. The hypergraphs are said to have 'failed' if an entire edge is filled with ones.
 
@@ -10,10 +10,10 @@ def gen_strings(n, r, j, bin_string = '', good_strings = None):
       j: The amount of 1 valued vertices.
       bin_string: A string of ones and zeros.
       good_strings: A list of the binary strings that satisfy the requirements.
-      
+
    Returns:
       A list of the binary strings that satisfy the requirements.
-         
+
    """
    if good_strings is None:
       good_strings = []
@@ -34,7 +34,7 @@ def gen_strings(n, r, j, bin_string = '', good_strings = None):
 
 def usr_input():
    """Get user input.
-   
+
    This function will collect user input including the graph size, hyperedge size, and 
    how much to print.
 
@@ -48,14 +48,14 @@ def usr_input():
       fill: How much information to print.
    """
    n = int(input('Enter the size of the hypergraph: '))
-   r = int(input('Enter the size of the hyperedge: '))
+   r = int(input('Enter the uniformity of the hypergraph: '))
    j = int(input('Enter the amount of blue vertices: '))
-   fill = input('Print all results? (y/n): ')
+   fill = input('Print all results? (y/n): ').lower()
    return n, r, j, fill
 
 def main():
    """Main function.
-   
+
    This function is a driver for the rest of the program.
 
    Args:
@@ -71,7 +71,7 @@ def main():
       print(outStr.format(n, r, j, len(gen_strings(n, r, j))))
    else:
       # Print all successful binary strings with all possible values up to the given parameters
-      for x in range(2, n + 1):
+      for x in range(1, n + 1):
          for y in range(2, r + 1):
             for z in range(1, j + 1):
                print(outStr.format(x, y, z, len(gen_strings(x, y, z))))
