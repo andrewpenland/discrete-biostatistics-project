@@ -141,7 +141,7 @@ def anyr_k1(n, r, j, value=0):
       return choose(n * (r - 1) + 1, j)
    if j > n * (r - 1) + 1 - ceil(n / 2):
       return 0
-   for i in range(r - 1): #goes up to and uncluding r-2
+   for i in range(r - 1): #goes up to and includes r-2
       value += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, value)
       value += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, value)
    return value
