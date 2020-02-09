@@ -51,7 +51,7 @@ def main():
       # Print all successful binary strings with all possible values up to the given parameters
       for w in range(1, n + 1):
          for x in range(2, r + 1):
-            for y in range(1, j + 1):
+            for y in range(0, j + 1):
                for z in range(1, k + 1):
                   print_results(method, w, x, y, z)
 
