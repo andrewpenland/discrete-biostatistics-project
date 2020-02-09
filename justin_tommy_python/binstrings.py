@@ -104,10 +104,10 @@ def r3k1(n, j):
    """
    if j == 0:
       return 1
-   if n < 1:
-      return 0
    if j == 1:
       return 2 * n + 1
+   if n < 1:
+      return 0
    if j == 2:
       return 2 * n ** 2 + n
    if j > 2 * n + 1 - ceil(n / 2):
@@ -136,12 +136,12 @@ def anyr_k1(n, r, j, value=0):
    if j == 0:
       return 1
    if n < 1:
-      return 0
+      return 1 if j == 1 else 0
    if j < r:
       return choose(n * (r - 1) + 1, j)
    if j > n * (r - 1) + 1 - ceil(n / 2):
       return 0
-   for i in range(r - 1):
+   for i in range(r - 1): #goes up to and including r-2
       value += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, value)
       value += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, value)
    return value
