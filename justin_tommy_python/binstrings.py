@@ -1,4 +1,6 @@
-from itertools import product 
+from itertools import product
+from math import ceil
+from math import factorial as fact
 
 def gen_comb(n, r, j):
    """
@@ -90,3 +92,78 @@ def gen_strings_rec(n, r, j, k, bin_string='', good_strings=None):
          (len(bin_string) % (r - 1) != 0 or bin_string[k * (1 - r):] != '1' * k * (r - 1))):
          gen_strings_rec(n, r, j, k, bin_string + '1', good_strings)
    return good_strings
+
+def r3k1(n, j):
+   """
+   Counts the number of possible ways to avoid a completely blue edge in 
+   a 3 uniform hyperpath with j blue vertices.
+
+   :param: n: The size of the hypergraph.
+   :param: j: The amount of 1 valued vertices.
+   :return: The number of binary strings that satisfy the requirements.
+   """
+   if j == 0:
+      return 1
+   if n < 1:
+      return 0
+   if j == 1:
+      return 2 * n + 1
+   if j == 2:
+      return 2 * n ** 2 + n
+   if j > 2 * n + 1 - ceil(n / 2):
+      return 0
+   value =  r3k1(n - 1, j)
+   value += r3k1(n - 1, j - 1) * 2
+   value += r3k1(n - 2, j - 2)
+   value += r3k1(n - 2, j - 3)
+   return value
+
+def choose(n, k):
+   """
+   Calculates the binomial coefficient for the given parameters. (n choose k)
+   """
+   return fact(n) // (fact(k) * fact(n - k))
+
+def anyr_k1(n, r, j, value=0):
+   """
+   Counts the number of possible ways to avoid a completely blue edge in 
+   an r uniform hyperpath with j blue vertices.
+
+   :param: n: The size of the hypergraph.
+   :param: j: The amount of 1 valued vertices.
+   :return: The number of binary strings that satisfy the requirements.
+   """
+   if j == 0:
+      return 1
+   if n < 1:
+      return 0
+   if j < r:
+      return choose(n * (r - 1) + 1, j)
+   if j > n * (r - 1) + 1 - ceil(n / 2):
+      return 0
+   for i in range(r - 1):
+      value += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, value)
+      value += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, value)
+   return value
+
+def r3_anyk(n, j, k):
+   """
+   Counts the number of possible ways to avoid a completely blue subhyperpath 
+   of size k in a 3 uniform hyperpath with j blue vertices.
+
+   :param: n: The size of the hypergraph.
+   :param: j: The amount of 1 valued vertices.
+   :return: The number of binary strings that satisfy the requirements.
+   """
+   return 0
+
+def anyr_anyk(n, r, j, k):
+   """
+   Counts the number of possible ways to avoid a completely blue subhyperpath 
+   of size k in an r uniform hyperpath with j blue vertices.
+
+   :param: n: The size of the hypergraph.
+   :param: j: The amount of 1 valued vertices.
+   :return: The number of binary strings that satisfy the requirements.
+   """
+   return 0
