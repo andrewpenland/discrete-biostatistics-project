@@ -102,49 +102,116 @@ def r3k1(n, j):
    :param: j: The amount of 1 valued vertices.
    :return: The number of binary strings that satisfy the requirements.
    """
-   if j == 0:
-      return 1
-   if j == 1:
-      return 2 * n + 1
-   if n < 1:
-      return 0
-   if j == 2:
-      return 2 * n ** 2 + n
-   if j > 2 * n + 1 - ceil(n / 2):
-      return 0
-   value =  r3k1(n - 1, j)
-   value += r3k1(n - 1, j - 1) * 2
-   value += r3k1(n - 2, j - 2)
-   value += r3k1(n - 2, j - 3)
-   return value
+   if j == 0: return 1
+   if j == 1: return 2 * n + 1
+   if n <  1: return 0
+   if j == 2: return 2 * n ** 2 + n
+   if j >  2 * n + 1 - ceil(n / 2): return 0
+
+   val =  r3k1(n - 1, j)
+   val += r3k1(n - 1, j - 1) * 2
+   val += r3k1(n - 2, j - 2)
+   val += r3k1(n - 2, j - 3)
+   return val
 
 def choose(n, k):
    """
    Calculates the binomial coefficient for the given parameters. (n choose k)
    """
-   return fact(n) // (fact(k) * fact(n - k))
+   if n < k:
+      result = 0
+   else:
+      result = fact(n) // (fact(k) * fact(n - k))
+   return result
 
-def anyr_k1(n, r, j, value=0):
+#def anyr_k1(n, r, j):
+#   global val
+#   val = 0
+#   result = do_anyr_k1(n, r, j)
+#   val = 0
+#   return result
+
+def do_anyr_k1(n, r, j):
    """
    Counts the number of possible ways to avoid a completely blue edge in 
    an r uniform hyperpath with j blue vertices.
 
    :param: n: The size of the hypergraph.
    :param: j: The amount of 1 valued vertices.
+   :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
    """
-   if j == 0:
-      return 1
-   if n < 1:
-      return 1 if j == 1 else 0
-   if j < r:
-      return choose(n * (r - 1) + 1, j)
-   if j > n * (r - 1) + 1 - ceil(n / 2):
-      return 0
+   if j == 0: return 1
+   if n <  1: return 1 if j == 1 else 0
+   if j <  r: return choose(n * (r - 1) + 1, j)
+   if j >  n * (r - 1) + 1 - ceil(n / 2): return 0
+   global val
+   print("***", val)
    for i in range(r - 1): #goes up to and includes r-2
-      value += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, value)
-      value += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, value)
-   return value
+      tmp = choose(r - 1, i) * do_anyr_k1(n - 1, r, j - i)
+      val += tmp
+      print("first loop: {} choose {} * F({}, {}) = {}".format(r - 1, i, n - 1, j - i, tmp))
+   for i in range(r - 1): #goes up to and includes r-2
+      tmp = choose(r - 2, i) * do_anyr_k1(n - 2, r, j - (r - 1) - i)
+      val += tmp
+      print("second loop: {} choose {} * F({}, {}) = {}".format(r - 2, i, n - 2, j - (r - 1) - i, tmp))
+   return val
+
+def anyr_k1(n, r, j, val=0):
+   """
+   Counts the number of possible ways to avoid a completely blue edge in 
+   an r uniform hyperpath with j blue vertices.
+
+   :param: n: The size of the hypergraph.
+   :param: j: The amount of 1 valued vertices.
+   :param: val: The running total of binary strings.
+   :return: The number of binary strings that satisfy the requirements.
+   """
+   if n < 0 or j <  0: return 0
+   if j == 0: return 1
+   if n == 0: return 1 if j == 1 else 0
+   if j < r: return choose(n * (r - 1) + 1, j)
+   if j > n * (r - 1) + 1 - ceil(n / 2): return 0
+   tmp = 0
+   for i in range(r - 1): #goes up to and includes r-2
+      tmp += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, val)
+   for i in range(r - 1): #goes up to and includes r-2
+      tmp += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, val)
+   val += tmp
+   return val
+
+#def anyr_k1(n, r, j, val=0):
+#   """
+#   Counts the number of possible ways to avoid a completely blue edge in 
+#   an r uniform hyperpath with j blue vertices.
+#
+#   :param: n: The size of the hypergraph.
+#   :param: j: The amount of 1 valued vertices.
+#   :param: val: The running total of binary strings.
+#   :return: The number of binary strings that satisfy the requirements.
+#   """
+#   if j == 0:
+#      val += 1
+#      return 1
+#   if n <  1:
+#      tmp = 1 if j == 1 else 0
+#      val += tmp
+#      return tmp
+#   if j <  r:
+#      tmp = choose(n * (r - 1) + 1, j)
+#      val += tmp
+#      return tmp
+#   if j >  n * (r - 1) + 1 - ceil(n / 2):
+#      return 0
+#   print("*** val={}, n={}, j={}".format(val, n, j))
+#   for i in range(r - 1): #goes up to and includes r-2
+#      choose(r - 1, i) * anyr_k1(n - 1, r, j - i, val)
+#      #print("first loop: {} choose {} * F({}, {}) = {}".format(r - 1, i, n - 1, j - i, tmp))
+#   for i in range(r - 1): #goes up to and includes r-2
+#      choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, val)
+#      #print("second loop: {} choose {} * F({}, {}) = {}".format(r - 2, i, n - 2, j - (r - 1) - i, tmp))
+#   print("Exit both loops: val={}, n={}, j={}".format(val, n, j))
+#   return val
 
 def r3_anyk(n, j, k):
    """
