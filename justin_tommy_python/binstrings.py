@@ -116,42 +116,18 @@ def r3k1(n, j):
    :param: j: The amount of 1 valued vertices.
    :return: The number of binary strings that satisfy the requirements.
    """
+   ## Base Cases ##
    if j == 0: return 1
    if j == 1: return 2 * n + 1
    if n <  1: return 0
    if j == 2: return 2 * n ** 2 + n
    if j >  2 * n + 1 - ceil(n / 2): return 0
 
+   ## Recurrence ##
    val =  r3k1(n - 1, j)
    val += r3k1(n - 1, j - 1) * 2
    val += r3k1(n - 2, j - 2)
    val += r3k1(n - 2, j - 3)
-   return val
-
-def do_anyr_k1(n, r, j):
-   """
-   Counts the number of possible ways to avoid a completely blue edge in 
-   an r uniform hyperpath with j blue vertices.
-
-   :param: n: The size of the hypergraph.
-   :param: r: The uniformity of the hypergraph.
-   :param: j: The amount of 1 valued vertices.
-   :return: The number of binary strings that satisfy the requirements.
-   """
-   if j == 0: return 1
-   if n <  1: return 1 if j == 1 else 0
-   if j <  r: return choose(n * (r - 1) + 1, j)
-   if j >  n * (r - 1) + 1 - ceil(n / 2): return 0
-   global val
-   print("***", val)
-   for i in range(r - 1): #goes up to and includes r-2
-      tmp = choose(r - 1, i) * do_anyr_k1(n - 1, r, j - i)
-      val += tmp
-      print("first loop: {} choose {} * F({}, {}) = {}".format(r - 1, i, n - 1, j - i, tmp))
-   for i in range(r - 1): #goes up to and includes r-2
-      tmp = choose(r - 2, i) * do_anyr_k1(n - 2, r, j - (r - 1) - i)
-      val += tmp
-      print("second loop: {} choose {} * F({}, {}) = {}".format(r - 2, i, n - 2, j - (r - 1) - i, tmp))
    return val
 
 def anyr_k1(n, r, j, val=0):
@@ -165,20 +141,22 @@ def anyr_k1(n, r, j, val=0):
    :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
    """
+   ## Base Cases ##
    if n < 0 or j <  0: return 0
    if j == 0: return 1
    if n == 0: return 1 if j == 1 else 0
    if j < r: return choose(n * (r - 1) + 1, j)
    if j > n * (r - 1) + 1 - ceil(n / 2): return 0
+
+   ## Recurrence ##
    tmp = 0
    for i in range(r - 1): #goes up to and includes r-2
       tmp += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, val)
-   for i in range(r - 1): #goes up to and includes r-2
       tmp += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, val)
    val += tmp
    return val
 
-def r3_anyk(n, j, k):
+def r3_anyk(n, j, k, val=0):
    """
    Counts the number of possible ways to avoid a completely blue subhyperpath 
    of size k in a 3 uniform hyperpath with j blue vertices.
@@ -186,11 +164,30 @@ def r3_anyk(n, j, k):
    :param: n: The size of the hypergraph.
    :param: j: The amount of 1 valued vertices.
    :param: k: The size of the subhypergraph to avoid.
+   :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
    """
-   return 0
+   ## Base Cases ##
+   if n < 0 or j <  0: return 0
+   if j == 0: return 1
+   if n == 0: return 1 if j == 1 else 0
+   if j < 2 * k + 1: return choose(2 * n + 1, j)
+   if j > 2 * n + 1 - ceil((n - k + 1) / (k + 1)): return 0
 
-def anyr_anyk(n, r, j, k):
+   ## Recurrence ##
+   tmp =  r3_anyk(n - 1, j, k)
+   tmp += r3_anyk(n - 1, j - 1, k) * 2
+   tmp += r3_anyk(n - 2, j - 2, k)
+   tmp += r3_anyk(n - 2, j - 3, k)
+
+   for i in range(1, k): #goes up to and includes k-1
+      tmp += r3_anyk(n - (i + 1), j - 2 * i - 1, k, val)
+      tmp += r3_anyk(n - (i + 2), j - 2 * (i + 1), k, val)
+      tmp += r3_anyk(n - (i + 2), j - 2 * (i + 1) - 1, k, val)
+   val += tmp
+   return val
+
+def anyr_anyk(n, r, j, k, val=0):
    """
    Counts the number of possible ways to avoid a completely blue subhyperpath 
    of size k in an r uniform hyperpath with j blue vertices.
@@ -199,6 +196,26 @@ def anyr_anyk(n, r, j, k):
    :param: r: The uniformity of the hypergraph.
    :param: j: The amount of 1 valued vertices.
    :param: k: The size of the subhypergraph to avoid.
+   :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
    """
-   return 0
+   ## Base Cases ##
+   if n < 0 or j <  0: return 0
+   if j == 0: return 1
+   if n == 0: return 1 if j == 1 else 0
+   if j < k * (r - 1) + 1: return choose(n * (r - 1) + 1, j)
+   if j > n * (r - 1) + 1 - ceil((n - k + 1) / (k + 1)): return 0
+
+   ## Recurrence ##
+   tmp = 0
+   for i in range(r - 1): #goes up to and includes r-2
+      tmp += choose(r - 1, i) * anyr_anyk(n - 1, r, j - i, k, val)
+      tmp += choose(r - 2, i) * anyr_anyk(n - 2, r, j - (r - 1) - i, k, val)
+
+   for l in range(1, k): #goes up to and includes k-1
+      for i in range(r - 2): #goes up to and includes r-3
+         tmp += choose(r - 2, i) * anyr_anyk(n - (l + 1), r, j - l * (r - 1) - 1 - i, k, val)
+      for i in range(r - 1): #goes up to and includes r-2
+         tmp += choose(r - 2, i) * anyr_anyk(n - (l + 2), r, j - (l + 1) * (r - 1) - i, k, val)
+   val += tmp
+   return val

@@ -18,30 +18,35 @@ class TestBinstrings(ut.TestCase):
          for r in range(2, DEPTH + 1):
             for j in range(0, O + 1):
                for k in range(1, n + 1):
+                  #print("n={}, j={}, k={}".format(n, j, k))
                   self.assertEqual(len(gsr(n, r, j, k)), len(gsi(n, r, j, k)))
 
    def test_r3k1(self):
       for n in range(1, DEPTH + 1):
-         for j in range(0, O3 + 1):
+         for j in range(O3 + 1):
+            #print("n={}, j={}, k={}".format(n, j, k))
             self.assertEqual(len(gsr(n, 3, j, 1)), r3k1(n, j))
 
    def test_anyr_k1(self):
       for n in range(1, DEPTH + 1):
          for r in range(3, DEPTH):
-            for j in range(0, O + 1):
+            for j in range(O + 1):
+               #print("n={}, j={}, k={}".format(n, j, k))
                self.assertEqual(len(gsr(n, r, j, 1)), anyr_k1(n, r, j))
 
    def test_r3_anyk(self):
-      for n in range(1, DEPTH + 1):
+      for n in range(3, DEPTH + 1):
          for j in range(0, O3 + 1):
-            for k in range(1, n + 1):
+            for k in range(2, n + 1):
+               #print("n={}, j={}, k={}".format(n, j, k))
                self.assertEqual(len(gsr(n, 3, j, k)), r3_anyk(n, j, k))
 
    def test_anyr_anyk(self):
-      for n in range(1, DEPTH + 1):
-         for r in range(3, DEPTH + 1):
+      for n in range(3, DEPTH + 1):
+         for r in range(4, DEPTH + 1):
             for j in range(0, O + 1):
-               for k in range(1, n + 1):
+               for k in range(2, n + 1):
+                  #print("n={}, j={}, k={}".format(n, j, k))
                   self.assertEqual(len(gsr(n, r, j, k)), anyr_anyk(n, r, j, k))
 
 if __name__ == '__main__':
