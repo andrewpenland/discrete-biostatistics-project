@@ -93,6 +93,20 @@ def gen_strings_rec(n, r, j, k, bin_string='', good_strings=None):
          gen_strings_rec(n, r, j, k, bin_string + '1', good_strings)
    return good_strings
 
+def choose(n, k):
+   """
+   Calculates the binomial coefficient for the given parameters. (n choose k)
+
+   :param: n: The cardinality of a set
+   :param: k: The number of elements to choose from that set
+   :return: The number of ways there are to select k elements from a set of size n
+   """
+   if n < k:
+      result = 0
+   else:
+      result = fact(n) // (fact(k) * fact(n - k))
+   return result
+
 def r3k1(n, j):
    """
    Counts the number of possible ways to avoid a completely blue edge in 
@@ -114,31 +128,14 @@ def r3k1(n, j):
    val += r3k1(n - 2, j - 3)
    return val
 
-def choose(n, k):
-   """
-   Calculates the binomial coefficient for the given parameters. (n choose k)
-   """
-   if n < k:
-      result = 0
-   else:
-      result = fact(n) // (fact(k) * fact(n - k))
-   return result
-
-#def anyr_k1(n, r, j):
-#   global val
-#   val = 0
-#   result = do_anyr_k1(n, r, j)
-#   val = 0
-#   return result
-
 def do_anyr_k1(n, r, j):
    """
    Counts the number of possible ways to avoid a completely blue edge in 
    an r uniform hyperpath with j blue vertices.
 
    :param: n: The size of the hypergraph.
+   :param: r: The uniformity of the hypergraph.
    :param: j: The amount of 1 valued vertices.
-   :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
    """
    if j == 0: return 1
@@ -163,6 +160,7 @@ def anyr_k1(n, r, j, val=0):
    an r uniform hyperpath with j blue vertices.
 
    :param: n: The size of the hypergraph.
+   :param: r: The uniformity of the hypergraph.
    :param: j: The amount of 1 valued vertices.
    :param: val: The running total of binary strings.
    :return: The number of binary strings that satisfy the requirements.
@@ -180,39 +178,6 @@ def anyr_k1(n, r, j, val=0):
    val += tmp
    return val
 
-#def anyr_k1(n, r, j, val=0):
-#   """
-#   Counts the number of possible ways to avoid a completely blue edge in 
-#   an r uniform hyperpath with j blue vertices.
-#
-#   :param: n: The size of the hypergraph.
-#   :param: j: The amount of 1 valued vertices.
-#   :param: val: The running total of binary strings.
-#   :return: The number of binary strings that satisfy the requirements.
-#   """
-#   if j == 0:
-#      val += 1
-#      return 1
-#   if n <  1:
-#      tmp = 1 if j == 1 else 0
-#      val += tmp
-#      return tmp
-#   if j <  r:
-#      tmp = choose(n * (r - 1) + 1, j)
-#      val += tmp
-#      return tmp
-#   if j >  n * (r - 1) + 1 - ceil(n / 2):
-#      return 0
-#   print("*** val={}, n={}, j={}".format(val, n, j))
-#   for i in range(r - 1): #goes up to and includes r-2
-#      choose(r - 1, i) * anyr_k1(n - 1, r, j - i, val)
-#      #print("first loop: {} choose {} * F({}, {}) = {}".format(r - 1, i, n - 1, j - i, tmp))
-#   for i in range(r - 1): #goes up to and includes r-2
-#      choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, val)
-#      #print("second loop: {} choose {} * F({}, {}) = {}".format(r - 2, i, n - 2, j - (r - 1) - i, tmp))
-#   print("Exit both loops: val={}, n={}, j={}".format(val, n, j))
-#   return val
-
 def r3_anyk(n, j, k):
    """
    Counts the number of possible ways to avoid a completely blue subhyperpath 
@@ -220,6 +185,7 @@ def r3_anyk(n, j, k):
 
    :param: n: The size of the hypergraph.
    :param: j: The amount of 1 valued vertices.
+   :param: k: The size of the subhypergraph to avoid.
    :return: The number of binary strings that satisfy the requirements.
    """
    return 0
@@ -230,7 +196,9 @@ def anyr_anyk(n, r, j, k):
    of size k in an r uniform hyperpath with j blue vertices.
 
    :param: n: The size of the hypergraph.
+   :param: r: The uniformity of the hypergraph.
    :param: j: The amount of 1 valued vertices.
+   :param: k: The size of the subhypergraph to avoid.
    :return: The number of binary strings that satisfy the requirements.
    """
    return 0
