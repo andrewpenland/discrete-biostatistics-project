@@ -1,6 +1,7 @@
+#!/usr/bin/env/python3
+
 from itertools import product
-from math import ceil
-from math import factorial as fact
+from math import ceil, factorial as fact
 
 def gen_comb(n, r, j):
    """
@@ -101,6 +102,7 @@ def choose(n, k):
    :param: k: The number of elements to choose from that set
    :return: The number of ways there are to select k elements from a set of size n
    """
+   print("{} choose {}".format(n, k))
    if n < k:
       result = 0
    else:
@@ -142,17 +144,23 @@ def anyr_k1(n, r, j, val=0):
    :return: The number of binary strings that satisfy the requirements.
    """
    ## Base Cases ##
-   if n < 0 or j <  0: return 0
+   #if n < 0 or j <  0: return 0
+   print("n={}, j={}".format(n, j))
    if j == 0: return 1
    if n == 0: return 1 if j == 1 else 0
-   if j < r: return choose(n * (r - 1) + 1, j)
+   if j < r:
+      print("J < R: n={}, j={}".format(n, j))
+      return choose(n * (r - 1) + 1, j)
    if j > n * (r - 1) + 1 - ceil(n / 2): return 0
 
    ## Recurrence ##
    tmp = 0
    for i in range(r - 1): #goes up to and includes r-2
+      print("ENTER LOOP: n={}, j={}".format(n, j))
       tmp += choose(r - 1, i) * anyr_k1(n - 1, r, j - i, val)
+      print("MIDDLE OF LOOP: n={}, j={}".format(n, j))
       tmp += choose(r - 2, i) * anyr_k1(n - 2, r, j - (r - 1) - i, val)
+      print("EXIT LOOP: n={}, j={}".format(n, j))
    val += tmp
    return val
 
