@@ -1,0 +1,6 @@
+To run tests: python3 binstringstest.py
+DEPTH is a constant that dictates how deep the unit tests will go. 
+I have it set to 4 by default, but a value of 5 runs on my PC in a few minutes. 
+Values higher than that run into problems with system resource drain. 
+For the functions where the uniformity is set as 3, higher DEPTH values are 
+more feasable. Higher r values drain memory.

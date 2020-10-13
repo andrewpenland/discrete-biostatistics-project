@@ -1,4 +1,6 @@
-from bin_strings import *
+#!/usr/bin/env/python3
+
+from binstrings import *
 
 def usr_input():
    """Get user input.
