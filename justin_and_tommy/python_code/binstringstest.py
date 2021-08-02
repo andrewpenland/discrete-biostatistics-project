@@ -4,7 +4,7 @@ import unittest as ut
 from binstrings import gen_strings_it as gsi, gen_strings_rec as gsr
 from binstrings import r3k1, anyr_k1, r3_anyk, anyr_anyk
 
-SIZE = 6 #will test all values up to SIZE for size
+SIZE = 5 #will test all values up to SIZE for size
 UNIF = 4 #will test all values up to UNIF for uniformity
 ORD = SIZE * (UNIF - 1) + 1 #order of a size SIZE, UNIF uniform hypergraph
 
