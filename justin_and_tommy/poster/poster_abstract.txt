@@ -1,0 +1,9 @@
+rough draft
+Our goal is to examine hypergraphs with boolean valued nodes. Each of these nodes experiences an ireversable state shift at some unpredictable time. The time at which an individual node actuates is modeled according to an exponential distribution. When analysing a hypergraph, it is possible to determine when a given subhypergraph becomes fully actuated. That is, when all nodes in that subhypergraph have seen a state shift. Using a mixture of theoretical analysis and running simulations with large populations with code we are writing in the R programming language, we are studying cases of intrest that may have applications in Biology or healthcare fields.
+
+final copy
+Our goal is to examine a stochastic process defined on hypergraphs where each node begins in an "off" position. Each node will switch to "on" at a time given by some chosen probability distribution. Our aim is to determine when all nodes in a given subhypergraph have switched to "on". Using a mixture of theoretical analysis and computer simulations, we are studying cases that may have applications in Biology or healthcare.
+
+finaler copy
+We examine a stochastic process defined on hypergraphs where each vertex begins colored red. Each vertex will switch to blue at a time given by some probability distribution. Our aim is to determine when all vertices in a given subhypergraph have switched to blue. Specifically, we are examining 3-uniform loose hyperpaths and are concerned with when all the vertices in a single hyperedge switch to blue.
+

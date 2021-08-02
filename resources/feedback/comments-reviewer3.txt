@@ -1,0 +1,29 @@
+Review of AN AXIOMATIC AND CONTEXTUAL REVIEW OF THE ARMITAGE AND DOLL MODEL OF
+CARCINOGENESIS The review of the assumptions around the Armitage and Doll (AD)
+model and the history of its use in the literature is interesting. While I am
+not up on oncology modeling past nor present, I think the structure of this
+article and context may provide a nice resource for those that are. The overall
+writing is solid. I have only a few suggestions to add some details to make the
+article that much more readable. Some minor corrections are listed afterward.
+Suggestions: Might read better to have sentences for each of Nordling's reasons
+for being less well-known e.g. (1) Nordling's data analysis methodology was ...
+[too coarse or too confounding, etc]. Some additional written details around the
+proof of the Theorems I think is in order. Why are you defining the function
+F(T) (cumulative?) the way you do? So F'(T) is the PDF? How is it that the
+sequence of steps in the proof shows the result you wish? This will be helpful
+to the target readers. A simple definition of power law would be useful for
+completeness. Should state why you are not proving Theorem 3.2. Should describe
+what a hazard function is in 4.1. Authors state that proof of Thm 4.4 is in this
+paper's appendix, which does not seem to exist.
+Minor: decease -> disease (throughout) Capitalization following a colon.
+...flexibility: Cancer... (other spots as well) ...power law of held even... no
+"of"? ...``with these [minor]... Needs left quote marks. AD model
+assumption list. All Capitalized to start or not. (3) is -> in Use \left( and
+\right) in Latex in Theorem 3.1 F(T)=... (and other spots) The
+"interesting" reader, perhaps, but maybe the "interested"
+reader? Wording in proof of Theorem 3.3 could be broken up into a couple of
+sentences for easier reading. Use \mbox{}
+(e.g.\mbox{or}) to avoid italicized english words in math expressions. In 4.2
+     "Friends, have a theorem. You'll love it." May want to keep it a
+     bit more formal. well -> will albeit is one word "sarcastically
+     immune"? "...with though..."

@@ -1,0 +1,1 @@
+This is a repository of the work done by a team of mathematicians at Western Carolina University in Cullowhee, NC and Adelphi University in Long Island, New York. This work is largely concerned with discrete mathematics and statistics and is inspired by potential applications in carcinogenesis research.
