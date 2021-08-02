@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb}
+
+\newcommand{\tallbinom}[2]{\left( \begin{array}{c} {#1} \\[8pt] {#2} \end{array} \right)}
+
+\begin{document}
+
+\textbf{Some Notes on Two-Variable Generating Functions}
+
+At this point, we have gone from recurrence relations to generating functions. Now, our goal is to take generating functions and simplify them to obtain a form of final answer. 
+
+\textbf{Notation:} 
+\begin{itemize}
+\item For me, $\mathbb{N}$ includes $0$.
+\item We define the \textit{protected binomial coefficient} $\binom{n}{k}_p$ to be equal to $\binom{n}{k}$ if both $n, k \in \mathbb{N}$, and $0$ otherwise. 
+\end{itemize}
+
+\hrule
+
+\textbf{Example 1:} Our goal is to look at the generating function
+\[
+D(x,y) = \displaystyle\frac{1}{1 - x^2y - xy^3}.
+\]
+and find the coefficient on $x^n y^j$ for a specific value of $n$ and $j$. 
+
+
+\textbf{Solution:} Factoring and using binomial theorem, we have
+
+\begin{align*}
+D(x,y) &= \displaystyle\frac{1}{1 - x^2y - xy^3} \\
+&= \displaystyle\frac{1}{1 - xy(x + y^2)} \\
+&= \displaystyle\sum_{m=0}^{\infty} \left[xy(x+y^2) \right]^m \\
+&= \displaystyle\sum_{m=0}^\infty (xy)^m (x+y^2)^m. \\
+\end{align*}
+
+Now we apply the binomial theorem on $(x+y^2)^m$, use the distributive property, and simplify the exponents. 
+
+\begin{align*}
+D(x,y) &= \displaystyle\sum_{m=0}^\infty (xy)^m \left( \binom{m}{r} x^r (y^2)^{m-r} \right) \\ 
+&= \displaystyle\sum_{m=0}^\infty (xy)^m \left[ \displaystyle\sum_{r=0}^m \binom{m}{r} x^r y^{2m - 2r}  \right] \\
+&= \displaystyle\sum_{m=0}^\infty \displaystyle\sum_{r = 0}^m \binom{m}{r} x^{m+r} y^{3m - 2r} \\ 
+\end{align*}
+
+Now we fix specific values of $n$ and $j$ to find the coefficient on $x^n y^j$. 
+
+To extract this coefficient, we assume
+
+\[
+n = m + r \text{ and } j = 3m - 2r.
+\]
+
+Here is the \textbf{KEY INSIGHT}: we can view this as a system of equations over the real numbers. From linear algebra, this system of equations has at most one $(m,r) \in \mathbb{R}^2$ that satisfies it. With the further restrictions on $m$ and $r$ ($m, r \in \mathbb{N}$, $0 \leq r \leq m$), it is possible that the system has no solution. 
+
+If this system does have a solution, it would be given by 
+\begin{align*}
+m &= n - r \\
+r &= \displaystyle\frac{3n - j}{5} 
+\end{align*}
+
+The coefficient on $x^{m+r} y^{3m - 2r}$ is $\binom{m}{r}$, so the coefficient on $x^n y^j$ is 
+
+\[
+\tallbinom{n - \frac{3n - j}{5}}{\frac{3n - j}{5}} \text{ if } \frac{3n - j}{5} \in\mathbb{N}
+\]
+
+and 0 otherwise. 
+
+Rewriting this with a common denominator and our protected binomial notation, we can say that the coefficient on $x^n y^j$ is
+
+\[
+\tallbinom{\frac{2n+j}{5}}{\frac{3n-j}{5}}_p.
+\]
+
+\hrule
+
+\textbf{Example 2:} We want to find the coefficient on $x^n y^j$ ($n, j \in \mathbb{N}$) for 
+\[
+G(x,y) = \displaystyle\frac{1}{1 - x - x^2y - xy^3}. 
+\]
+
+Following a similar process as Example 1 (except we use binomial theorem twice), we have this calculation: \\
+
+\begin{align*}
+G(x,y) &= \displaystyle\frac{1}{1 - x(1 + xy + y^2)} \\
+&= \displaystyle\sum_{m = 0}^\infty \left( x (1+ xy + y^2)) \right)^m \\
+&= \displaystyle\sum_{m = 0}^\infty x^m \left(1 + xy + y^2 \right)^m \\
+&= \displaystyle\sum_{m = 0}^\infty x^m  \left( \displaystyle\sum_{r=0}^m \binom{m}{r} 1^{m-r} (xy + y^2)^r \right) \\
+&= \displaystyle\sum_{m = 0}^\infty x^m \left( \displaystyle\sum_{r = 0}^m \binom{m}{r} \displaystyle\sum_{t = 0}^r \binom{r}{t} (xy)^t (y^2)^{r-t}  \right) \\
+&= \displaystyle\sum_{m = 0}^\infty \displaystyle\sum_{r = 0}^m \displaystyle\sum_{t = 0}^r \binom{m}{r} \binom{r}{t} x^{m+t} y^{2r - t} \\
+\end{align*}
+
+Now we fix specific non-negative integers $n$ and $j$, hoping to find the coefficient on $x^n y^j$. 
+
+If $n = m + t$, $j = 2r - t$, this produces a system of equations over the real numbers which is \textit{underdetermined}: $t$ will be a free variable. However, we are restricted to the case where $t \in \{0, 1, 2, \ldots, n\}$. 
+
+In terms of the free variable $t$, we have $m = n - t$ and $r = \displaystyle\frac{j + t}{2}$. So the coefficient on $x^n y^j$ will be given by 
+\[
+\tallbinom{n -t}{\frac{j+t}{2}} \tallbinom{ \frac{j+t}{2}}{t} 
+\]
+
+as long as the quantities involved in the binomial coefficient are integers. We rewrite this in terms of the protected binomial coefficient to obtain our final answer. 
+
+\hrule 
+
+\textbf{Example 3:} We want to find the coefficient on $x^n y^j$ ($n, j \in \mathbb{N}$) for 
+\[
+G(x,y) = \displaystyle\frac{1 + 3x}{1 - x - x^2y - xy^3}. 
+\]
+
+Notice that this has the same denominator as Example 2, but a different numerator. We will not repeat all of the algebra, but we notice that distributing the $(1 + 3x)$ through the terms obtained by expanding the denominator as a power series produces the following sum: \\
+
+\[
+ \displaystyle\sum_{m = 0}^\infty \displaystyle\sum_{r = 0}^m \displaystyle\sum_{t = 0}^r \binom{m}{r} \binom{r}{t} x^{m+t} y^{2r - t} + 3x^{m+t+1}y^{2r - t}.
+\]
+
+Now, in solving for the coefficient on $x^n y^j$, we have two possibilities, $n = m + t$ or $n = m + t + 1$. Of course, the two cases are similar, but for a fixed value of $t$ we will end up with a sum of two terms (each of which is the product of two binomial coefficients). 
+
+I obtained 
+
+\[
+\displaystyle\sum_{t = 0}^n \tallbinom{n - t}{\frac{j + t}{2}}_p \tallbinom{\frac{j + t}{2}}{t}_p + \tallbinom{n - t - 1}{\frac{j + t}{2}}_p \tallbinom{\frac{j + t}{2}}{t}_p
+\]
+
+as my final answer. 
+
+\textbf{Comment:} If the denominator contains even more terms, we will likely pay the price with more summations, and more free variables. This is to be expected.
+
+An alternative for expressing the protected binomial coefficients would be to use multinomial coefficients instead of binomial coefficients. 
+
+\end{document} 
+
